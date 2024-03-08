@@ -1,0 +1,19 @@
+{
+  "name": "software-engineering-project",
+  "version": "1.0.0",
+  "description": "Project of Software Engineering II course",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/engkareeem/CommuniCraft-API.git"
+  },
+  "author": "VectorZ",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/engkareeem/CommuniCraft-API/issues"
+  },
+  "homepage": "https://github.com/engkareeem/CommuniCraft-API#readme"
+}
