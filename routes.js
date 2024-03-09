@@ -16,7 +16,12 @@ fs.readdirSync(routesFolder).forEach(file => {
 
     }
 });
-
+parentRouter.use((err, req, res, next) => { // error handler
+    res.status(500).json({ // 500: internal server err
+        message: err.message,
+        error: err
+    });
+});
 parentRouter.all('*', (req, res) => {
     let errorCode = 404
     utility.sendError(res, errorCode)
