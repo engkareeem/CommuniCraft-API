@@ -1,10 +1,9 @@
-// nvm it's just for testing...
 const express = require('express')
 const router = express.Router()
 
-router.get("/", (req, res) => {
+router.post("/login", (req, res) => {
     res.status(200);
-    res.send("take all users")
+    res.send("TOKEN")
 })
 
 module.exports = router
