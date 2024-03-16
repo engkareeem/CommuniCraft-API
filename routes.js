@@ -13,13 +13,15 @@ function readRoutesFolders(dirname,parentRouter) {
         if (fs.statSync(filePath).isDirectory()) {
             let childParent = express.Router()
             let name = path.basename(filePath);
-            readRoutes(filePath, childParent);
-            parentRouter.use(`/${name}`, childParent)
+            let success = readRoutes(filePath, childParent);
+            if(success) parentRouter.use(`/${name}`, childParent)
         }
     })
 }
 function readRoutes(dirname, parentRouter) {
+    let success = false;
     fs.readdirSync(dirname).forEach(file => {
+        success = true;
         const filePath = path.join(dirname, file);
         if (fs.statSync(filePath).isDirectory()) {
             const directoryRouter = express.Router();
@@ -31,6 +33,7 @@ function readRoutes(dirname, parentRouter) {
             parentRouter.use(`/`, childRouter);
         }
     });
+    return success;
 }
 
 
