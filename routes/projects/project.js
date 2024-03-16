@@ -2,9 +2,9 @@
 const express = require('express')
 const router = express.Router()
 
-router.get("/", (req, res) => {
+router.get("/:project", (req, res) => {
     res.status(200);
-    res.send("Hello blud im a user!")
+    res.send("Hello im a project!! if you believe i believe")
 })
 
 module.exports = router
