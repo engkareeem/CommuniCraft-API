@@ -1,14 +1,21 @@
 const express = require('express')
 const router = express.Router()
-
-router.get("/", (req, res) => {
+const usersModel = require('../../models/user')
+router.get("/", async (req, res) => {
+    let users = await usersModel.find();
     res.status(200);
-    res.send(["user1"])
+    res.send(users)
 })
 
-router.get("/:id(\\d+)", (req, res) => {
-    res.status(200);
-    res.send({name:"user1",role: "user", email:"test@bludmail.com"})
+router.get("/:id", async (req, res) => {
+    let user = await usersModel.findOne({'_id': req.params.id})
+    if(user) {
+        res.status(200).send(user);
+    } else {
+        res.status(404).send({message: "User not found"})
+    }
 })
+
+
 
 module.exports = router
