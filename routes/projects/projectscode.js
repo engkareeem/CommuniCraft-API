@@ -19,7 +19,7 @@ router.get("/:id", async (req, res) => {
         let projectId = req.params.id;
 
         let project = await projectModel.findById(projectId);
-        res.status(200).send(project);
+        res.status(200).json(project);
     } catch (error) {
         console.error(error);
         res.status(500).send("Internal Server Error");
@@ -45,7 +45,7 @@ router.get("/:id/comments", async (req, res) => {
 
         let project = await projectModel.findById(projectId);
         let comments = project.comments;
-        res.status(200).send(comments);
+        res.status(200).json(comments);
     } catch (error) {
         console.error(error);
         res.status(500).send("Internal Server Error");
