@@ -1,29 +1,16 @@
 const express = require('express')
 const router = express.Router()
-const usersModel = require('../../models/user')
-const mongoose = require("mongoose")
-const {isValidId} = require("../../utility");
-router.get("/", async (req, res) => {
-    let users = await usersModel.find();
-    res.status(200);
-    res.send(users)
-})
+const {getUsersLogic, updateUserLogic, deleteUserLogic} = require("../../controller/users/users");
+const {getUserToolsLogic, useLogic, releaseLogic, deleteUserToolLogic} = require("../../controller/users/tools");
 
-router.get("/:id", async (req, res) => {
+router.get("/", getUsersLogic)
+router.get("/:id", getUsersLogic)
+router.patch("/:id", updateUserLogic)
+router.delete("/:id", deleteUserLogic)
 
-    if(isValidId(req.params.id)) {
-        let user = await usersModel.findOne({'_id': req.params.id})
-        if(user) {
-            res.status(200).send(user);
-        } else {
-            res.status(404).send({message: "User not found"})
-        }
-    } else {
-        res.status(400).send({message: "Invalid UserId provided"})
-    }
-
-})
-
-
+router.get("/:id/tools", getUserToolsLogic)
+router.post("/:id/tools/:toolId/use", useLogic)
+router.post("/:id/tools/:toolId/release", releaseLogic)
+router.delete("/:id/tools/:toolId", deleteUserToolLogic)
 
 module.exports = router

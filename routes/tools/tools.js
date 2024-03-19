@@ -1,11 +1,10 @@
 const express = require('express')
-const toolsModel = require("../../models/tool");
+const {getToolsLogic, addToolLogic, deleteToolLogic, updateToolLogic} = require("../../controller/tools/tools");
 const router = express.Router()
 
-router.get("/", async (req, res) => {
-    // TODO: Privileged
-    let tools = await toolsModel.find();
-    res.status(200).json({message: "OK", data: tools})
-})
+router.get("/", getToolsLogic)
+router.post("/", addToolLogic)
+router.delete("/:id", deleteToolLogic)
+router.patch("/:toolId", updateToolLogic)
 
 module.exports = router
