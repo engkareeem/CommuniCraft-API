@@ -2,7 +2,6 @@ const materialsModel = require("../../models/material");
 const {isValidId, updateDoc} = require("../../utility");
 const materialModel = require("../../models/material");
 module.exports.getMaterialsLogic = async (req, res) => {
-    // TODO: Privileged
     let tools = await materialsModel.find();
     res.status(200).json({message: "OK", data: tools})
 }
