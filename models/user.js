@@ -22,11 +22,23 @@ const userSchema = new mongoose.Schema({
     },
     skills: [String],
     interests: [String],
-    borrowedTools: [{type: mongoose.Schema.Types.ObjectId, ref: 'Tools'}],
+    borrowedTools: [
+        {
+            tool:{
+                type: mongoose.Schema.Types.ObjectId, ref: 'Tools',
+                required: [true, 'Please provide UserId']
+            },
+            from:{
+                type: mongoose.Schema.Types.ObjectId, ref: 'Users',
+                required: [true, 'Please provide ToolId'],
+            }
+        }
+    ],
     ownedTools: [{
         tool: { type: mongoose.Schema.Types.ObjectId, ref: 'Tools' },
         stockNumber: Number,
-        stockAvailable: Number
+        stockAvailable: Number,
+        availableToBorrow: Boolean
     }],
 });
 
