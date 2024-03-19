@@ -8,10 +8,13 @@ router.get('/:id/tasks', async (req, res) => {
     try {
         const projectId = req.params.id;
         const project = await projectModel.findById(projectId).populate('tasks');
+        const response = {message: " Get all tasks Succesfully "}
         res.status(200).json(project.tasks);
     } catch (error) {
         console.error(error);
-        res.status(500).send("Internal Server Error");
+        const response = {message: " error "}
+
+        res.status(500).json("Internal Server Error");
     }
 });
 
@@ -29,11 +32,14 @@ router.post('/:id/tasks', async (req, res) => {
         const project = await projectModel.findById(projectId);
         project.tasks.push(savedTask._id);
         await project.save();
+        const response = {message: " Create a new task Succesfully "}
 
         res.status(201).json(savedTask);
     } catch (error) {
         console.error(error);
-        res.status(500).send("Internal Server Error");
+        const response = {message: " error "}
+
+        res.status(500).json("Internal Server Error");
     }
 });
 
@@ -42,10 +48,13 @@ router.get('/:id/tasks/:taskId', async (req, res) => {
     try {
         const taskId = req.params.taskId;
         const task = await taskModel.findById(taskId);
+        const response = {message: "  Get project task   by TaskID Succesfully "}
         res.status(200).json(task);
     } catch (error) {
         console.error(error);
-        res.status(500).send("Internal Server Error");
+        const response = {message: " error"}
+
+        res.status(500).json("Internal Server Error");
     }
 });
 
@@ -54,10 +63,14 @@ router.patch('/:id/tasks/:taskId', async (req, res) => {
     try {
         const taskId = req.params.taskId;
         const updatedTask = await taskModel.findByIdAndUpdate(taskId, req.body, { new: true });
+        const response = {message: "  Update project by TaskID Succesfully "}
+
         res.status(200).json(updatedTask);
     } catch (error) {
         console.error(error);
-        res.status(500).send("Internal Server Error");
+        const response = {message: " error"}
+
+        res.status(500).json("Internal Server Error");
     }
 });
 
@@ -70,11 +83,14 @@ router.patch('/:id/tasks/:taskId/assign', async (req, res) => {
 
         task.assignedUsers.push(userId);
         await task.save();
+        const response = {message: " Assign Succesfully "}
 
-        res.status(200).send("User assigned to task successfully");
+        res.status(200).json("User assigned to task successfully");
     } catch (error) {
         console.error(error);
-        res.status(500).send("Internal Server Error");
+        const response = {message: "error "}
+
+        res.status(500).json("Internal Server Error");
     }
 });
 
@@ -83,10 +99,14 @@ router.get('/:id/tasks/:taskId/comments', async (req, res) => {
     try {
         const taskId = req.params.taskId;
         const task = await taskModel.findById(taskId);
+        const response = {message: " Get comments  Succesfully "}
+
         res.status(200).json(task.comments);
     } catch (error) {
         console.error(error);
-        res.status(500).send("Internal Server Error");
+        const response = {message: " error "}
+
+        res.status(500).json("Internal Server Error");
     }
 });
 
@@ -99,11 +119,14 @@ router.post('/:id/tasks/:taskId/comments', async (req, res) => {
 
         task.comments.push(comment);
         await task.save();
+        const response = {message: " add comment Succesfully "}
 
-        res.status(200).send("Comment added to task successfully");
+        res.status(200).json("Comment added to task successfully");
     } catch (error) {
         console.error(error);
-        res.status(500).send("Internal Server Error");
+        const response = {message: " error "}
+
+        res.status(500).json("Internal Server Error");
     }
 });
 
@@ -116,11 +139,14 @@ router.delete('/:id/tasks/:taskId', async (req, res) => {
         const project = await projectModel.findById(projectId);
         project.tasks.pull(taskId);
         await project.save();
+        const response = {message: " Delete Succesfully "}
 
-        res.status(200).send("Task deleted successfully");
+        res.status(200).json("Task deleted successfully");
     } catch (error) {
         console.error(error);
-        res.status(500).send("Internal Server Error");
+        const response = {message: " error "}
+
+        res.status(500).json("Internal Server Error");
     }
 });
 
