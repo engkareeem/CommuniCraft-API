@@ -5,7 +5,7 @@ const express = require('express')
 const routers = require('./routes.js')
 const cookieParser = require("cookie-parser")
 const app = express()
-
+const routers = require('./routes.js')
 
 
 app.use(express.json());

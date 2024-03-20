@@ -1,21 +1,16 @@
 const express = require('express')
 const router = express.Router()
-const usersModel = require('../../models/user')
-router.get("/", async (req, res) => {
-    let users = await usersModel.find();
-    res.status(200);
-    res.send(users)
-})
+const {getUsersLogic, updateUserLogic, deleteUserLogic} = require("../../controller/users/users");
+const {getUserToolsLogic, useLogic, releaseLogic, deleteUserToolLogic} = require("../../controller/users/tools");
 
-router.get("/:id", async (req, res) => {
-    let user = await usersModel.findOne({'_id': req.params.id})
-    if(user) {
-        res.status(200).send(user);
-    } else {
-        res.status(404).send({message: "User not found"})
-    }
-})
+router.get("/", getUsersLogic)
+router.get("/:id", getUsersLogic)
+router.patch("/:id", updateUserLogic)
+router.delete("/:id", deleteUserLogic)
 
-
+router.get("/:id/tools", getUserToolsLogic)
+router.post("/:id/tools/:toolId/use", useLogic)
+router.post("/:id/tools/:toolId/release", releaseLogic)
+router.delete("/:id/tools/:toolId", deleteUserToolLogic)
 
 module.exports = router

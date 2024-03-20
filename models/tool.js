@@ -1,7 +1,10 @@
 const mongoose = require('mongoose')
 
 const toolSchema = new mongoose.Schema({
-    name: String,
+    name: {
+        type: String,
+        required: [true, 'Please provide name']
+    },
     description: String,
 });
 
