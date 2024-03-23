@@ -32,23 +32,46 @@ const checkCurrentUserWithToken = async (req, res, next) => {
         const token = req.headers.authorization.split(' ')[1];
         req.token = token;
         if(token){
-        
-            const decodedToekn = jwt.verify(token, process.env.JWT_SECRET);
-            let user = await User.findById(decodedToekn.id);
-            
-            if(user._id == req.params.id) {
-                req.user = user;
-                next();
 
+            const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+
+            if(decodedToken.id === req.params.id || await isPrivileged(decodedToken.id)) {
+                next();
+            } else {
+                next(Error('User not privileged'))
             }
-        
+        } else {
+            next(Error('User is not Authorized'));
         }
-        next(Error('User is not Authorized'));
-        
+
     }else {
         next(Error('Invalid Token'));
     }
-    
+}
+const isPrivileged = async (id) => {
+    const user = await User.findById(id).lean();
+    return user.isAdmin;
+}
+const checkPrivilegedUserWithToken = async (req, res, next) => {
+    if(req.headers.authorization) {
+        const token = req.headers.authorization.split(' ')[1];
+        req.token = token;
+        if(token){
+
+            const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+
+            if(await isPrivileged(decodedToken.id)) {
+                next();
+            } else {
+                next(Error('User not privileged'))
+            }
+        } else {
+            next(Error('User is not Authorized'));
+        }
+
+    }else {
+        next(Error('Invalid Token'));
+    }
 }
 
 const checkAuth = async (req, res, next) => {
@@ -74,4 +97,4 @@ const checkAuth = async (req, res, next) => {
     
 }
 
-module.exports = {getCurrentUser, checkAuth}
+module.exports = {getCurrentUser, checkAuth, checkCurrentUserWithToken, checkPrivilegedUserWithToken, isPrivileged}

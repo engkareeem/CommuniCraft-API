@@ -63,7 +63,7 @@ module.exports.signup = async (req, res, next) => {
     try {
         const user = await User.create(req.body);
         const token = createToken(user._id);
-        res.status(201).json({ token});
+        res.status(201).json({token, userId: user._id.toString()});
     }
     catch(err) {
         next(err);
@@ -78,7 +78,7 @@ module.exports.login = async (req, res, next) => {
     try {
         const user = await User.login(email, password);
         const token = createToken(user._id);
-        res.status(200).json({token});
+        res.status(200).json({token,userId: user._id.toString()});
     } catch(err){
         next(err);
     }

@@ -1,6 +1,7 @@
 const toolsModel = require("../../models/tool");
 const usersModel = require("../../models/user");
 const {isValidId, updateDoc} = require("../../utility");
+const {getCurrentUser, isPrivileged} = require("../../middleware/auth_middleware");
 module.exports.hasTool = (user, toolId) => {
     let userTools = user.ownedTools.map(obj => obj.tool.toString())
     return userTools.includes(toolId);
@@ -35,8 +36,10 @@ module.exports.updateUserLogic = async(req, res) => {
     // TODO: Authorized
     if(isValidId(req.params.id)) {
         let user = await usersModel.findOne({'_id': req.params.id})
+        let data = req.body;
         if(user) {
-            user = updateDoc(user, req.body);
+            if(!await isPrivileged(req.user._id)) delete data.isAdmin; // to prevent the user from making himself admin.
+            user = updateDoc(user, data);
             await user.save();
             res.status(200).json({message: "Updated successfully", data: user});
         } else {

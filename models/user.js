@@ -22,6 +22,7 @@ const userSchema = new mongoose.Schema({
         required: [true, 'Please provide a password'],
         minlength: [6, 'Minimum password length is 6']
     },
+    isAdmin: {type: Boolean, default: false},
     skills: [String],
     interests: [String],
     borrowedTools: [
@@ -45,9 +46,10 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.pre('save', async function(next){
-    this.password = await bcrypt.hash(this.password, 10);
+    if(this.password) this.password = await bcrypt.hash(this.password, 10);
     next();
 });
+
 
 userSchema.statics.login = async function(email, password) {
     const user = await this.findOne({email});
