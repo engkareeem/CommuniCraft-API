@@ -18,6 +18,8 @@ const getCurrentUser = async (req, res, next) => {
             }
         
         }
+        next(Error('Token missed'));
+        
     }else {
         next(Error('Invalid Token'));
     }

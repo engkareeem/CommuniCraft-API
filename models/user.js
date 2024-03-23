@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt')
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: [true, 'Please provide name']
+        required: [true, 'Please provide a name']
     },
     age: Number,
     gender: Boolean, // true: male, (f)alse: (f)emale
@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
     contact: String, // assuming we will take his number only
     email: {
         type: String,
-        required: [true, 'Please provide a email'],
+        required: [true, 'Please provide an email'],
         unique: true, // TODO: The email provided is already in use
         validate: [isEmail, 'Please provide a valid email']
     },

@@ -31,6 +31,9 @@ module.exports.auth_erorr_handler = (error, req, res, next) => {
         errors['password'] = "The provided password is incorrect";
     }
 
+    if(error.message == "Token missed") {
+        errors['token'] = "Token was not provided in the headers";
+    }
     if(error.code === 11000) {
         errors['email'] = 'The email provided is already in use.'
     }
@@ -39,8 +42,7 @@ module.exports.auth_erorr_handler = (error, req, res, next) => {
         errors['Authorization'] = 'The provided token is not valid.';
     }
     
-    if(error.message.includes('user validation failed')) {
-         
+    if(error._message && error._message.includes('User validation failed')) {
         Object.values(error.errors).forEach(({properties}) => {
             errors[properties.path] = properties.message;  
         });
@@ -58,7 +60,6 @@ module.exports.isAuthorized = async(req, res) => {
 
 module.exports.signup = async (req, res, next) => {
     const { password } = req.body;
-    
     try {
         const user = await User.create(req.body);
         const token = createToken(user._id);
