@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const projectModel = require('../../models/project');
+const {checkAuth} = require('../../middleware/auth_middleware');
 
-router.post("/", async (req, res) => {
+router.post("/", checkAuth,  async (req, res) => {
     try {
         let body = req.body;
 
@@ -13,8 +14,6 @@ router.post("/", async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 });
-
-
 
 router.get("/:id", async (req, res) => {
     try {
@@ -28,7 +27,7 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-router.patch("/:id", async (req, res) => {
+router.patch("/:id",checkAuth, async (req, res) => {
     try {
         let body = req.body;
         let projectId = req.params.id;
@@ -54,7 +53,7 @@ router.get("/:id/comments", async (req, res) => {
     }
 });
 
-router.post("/:id/comments", async (req, res) => {
+router.post("/:id/comments",checkAuth, async (req, res) => {
     try {
         let body = req.body;
         let projectId = req.params.id;
@@ -69,7 +68,7 @@ router.post("/:id/comments", async (req, res) => {
     }
 });
 
-router.delete("/:id/comments/:Cid", async (req, res) => {
+router.delete("/:id/comments/:Cid",checkAuth, async (req, res) => {
     try {
         let projectId = req.params.id;
         let commentId = req.params.Cid;
@@ -84,7 +83,7 @@ router.delete("/:id/comments/:Cid", async (req, res) => {
     }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id",checkAuth, async (req, res) => {
     try {
         let projectId = req.params.id;
 
@@ -98,7 +97,7 @@ router.delete("/:id", async (req, res) => {
 
 // Project sharing support
 
-router.post("/:id/share", async (req, res) => {
+router.post("/:id/share",checkAuth, async (req, res) => {
     try {
         let body = req.body;
         let projectId = req.params.id;
@@ -113,7 +112,7 @@ router.post("/:id/share", async (req, res) => {
     }
 });
 
-router.get("/:id/share", async (req, res) => {
+router.get("/:id/share",checkAuth, async (req, res) => {
     try {
         let projectId = req.params.id;
         let project = await projectModel.findById(projectId);
