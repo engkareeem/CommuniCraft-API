@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const projectModel = require('../../models/project');
-const taskModel = require('../../models/task');
+const projectModel = require('../../../models/project');
+const taskModel = require('../../../models/task');
 
 // Get all tasks
 router.get('/:id/tasks', async (req, res) => {
