@@ -266,3 +266,66 @@
  *       500:
  *         description: Internal Server Error
  */
+
+/**
+ * @swagger
+ * /api/projects/find:
+ *   get:
+ *     tags: [Project]
+ *     summary: Find projects by desired difficulty and status
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: desiredDifficulty
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: desiredStatus
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Successful operation
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Project'
+ *       400:
+ *         description: Please provide desired difficulty and status
+ *       500:
+ *         description: Internal Server Error
+ */
+
+/**
+ * @swagger
+ * /api/projects/addWorker/{projectId}:
+ *   post:
+ *     tags: [Project]
+ *     summary: Add a worker to a project by project ID
+ *     parameters:
+ *       - in: path
+ *         name: projectId
+ *         required: true
+ *         description: ID of the project
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               userId:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: User added to project successfully
+ *       404:
+ *         description: Project not found
+ *       500:
+ *         description: Internal Server Error
+ */
