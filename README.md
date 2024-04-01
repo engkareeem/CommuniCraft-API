@@ -58,10 +58,10 @@ API documentation is generated using Swagger UI, providing comprehensive insight
 
 ## Questions? 
 
-If you have any questions or need assistance, feel free to reach out to the project maintainers.
+If you have any questions or need assistance, feel free to reach out to the project developers.
 
 ---
-🚀 Happy crafting and collaboration!
+🚀 Happy crafting and collaboration! 🔨⛏️
 
 note: For simplicity, look at the image down below for API and Database structure and Schema ⬇️
 ![image](https://github.com/engkareeem/CommuniCraft-API/assets/54283555/359c2464-03b2-4b15-b264-fc8d07b9fe46)
