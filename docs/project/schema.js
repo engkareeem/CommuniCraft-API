@@ -46,5 +46,8 @@
  *             type: string
  *             format: uuid
  *           description: IDs of tasks related to the project
+ *         location:
+ *           type: string
+ *           description: location of the project
  */
 

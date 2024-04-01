@@ -35,6 +35,7 @@ let projectSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Tasks'
     }],
+    location: String,
 });
 
 module.exports = mongoose.model("Project", projectSchema,"Projects");
