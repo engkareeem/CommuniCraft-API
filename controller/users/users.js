@@ -52,7 +52,7 @@ module.exports.matchUserLogic = async (req, res) => {
     if (isValidId(req.params.id)) {
         const currentUserData = await usersModel.findById(req.params.id).lean();
         if (currentUserData) {
-            const allUsers = await usersModel.find({ email: { $ne: currentUserData.email } }).lean();
+            const allUsers = await usersModel.find({ email: { $ne: currentUserData.email } }, {password: 0, isAdmin: 0, similarity: 0, ownedTools: 0, borrowedTools: 0}).lean();
 
             let closestUsers = [];
 
