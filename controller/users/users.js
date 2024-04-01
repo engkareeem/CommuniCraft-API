@@ -2,6 +2,22 @@ const toolsModel = require("../../models/tool");
 const usersModel = require("../../models/user");
 const {isValidId, updateDoc} = require("../../utility");
 const {getCurrentUser, isPrivileged} = require("../../middleware/auth_middleware");
+const {findPeopleWithSkill} = require("./external_api");
+
+function dotProduct(vector1, vector2) {
+    return vector1.reduce((acc, val, index) => acc + val * vector2[index], 0);
+}
+function magnitude(vector) {
+    return Math.sqrt(vector.reduce((acc, val) => acc + val ** 2, 0));
+}
+function cosineSimilarity(vector1, vector2) {
+    const dot = dotProduct(vector1, vector2);
+    const mag1 = magnitude(vector1);
+    const mag2 = magnitude(vector2);
+    if (mag1 === 0 || mag2 === 0) return 0; // Handle zero vectors
+    return dot / (mag1 * mag2);
+}
+
 module.exports.hasTool = (user, toolId) => {
     let userTools = user.ownedTools.map(obj => obj.tool.toString())
     return userTools.includes(toolId);
@@ -30,6 +46,40 @@ module.exports.getUserLogic = async (req, res) => {
     } else {
         res.status(400).send({message: "Invalid UserId provided"})
     }
+}
+
+module.exports.matchUserLogic = async (req, res) => {
+    if (isValidId(req.params.id)) {
+        const currentUserData = await usersModel.findById(req.params.id).lean();
+        if (currentUserData) {
+            const allUsers = await usersModel.find({ email: { $ne: currentUserData.email } }).lean();
+
+            let closestUsers = [];
+
+            allUsers.forEach(user => {
+                let skillsIntersection = currentUserData.skills.filter(skill => user.skills.includes(skill));
+                let interestsIntersection = currentUserData.interests.filter(interest => user.interests.includes(interest));
+
+                let skillsSimilarity = skillsIntersection.length / Math.sqrt(currentUserData.skills.length * user.skills.length);
+                let interestsSimilarity = interestsIntersection.length / Math.sqrt(currentUserData.interests.length * user.interests.length);
+
+                let overallSimilarity = cosineSimilarity([skillsSimilarity, interestsSimilarity], [1, 1]);
+
+                closestUsers.push({ user, similarity: overallSimilarity });
+            });
+
+            closestUsers.sort((a, b) => b.similarity - a.similarity);
+            let externalClosestUsers = await findPeopleWithSkill(currentUserData.skills.first);
+            if(externalClosestUsers) externalClosestUsers = externalClosestUsers.slice(0, req.params.size);
+            res.status(200).json({internal: closestUsers.slice(0, req.params.size), external: externalClosestUsers})
+        } else {
+            res.status(404).send({message: "User not found"})
+        }
+
+    } else {
+        res.status(400).send({message: "Invalid UserId provided"})
+    }
+
 }
 
 module.exports.updateUserLogic = async(req, res) => {

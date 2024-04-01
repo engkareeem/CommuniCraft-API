@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-module.exports.findPeopleWithSkillsInALocation = async (skill) => {
+module.exports.findPeopleWithSkill = async (skill) => {
     
 
     const options = {
