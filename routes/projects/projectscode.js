@@ -95,6 +95,48 @@ router.delete("/:id",checkAuth, async (req, res) => {
     }
 });
 
+router.get("/find", checkAuth, async (req, res) => {
+    try {
+        let { desiredDifficulty, desiredStatus } = req.body;
+
+        if (!desiredDifficulty || !desiredStatus) {
+            return res.status(400).send("Please provide desired difficulty and status");
+        }
+
+        let projects = await projectModel.find({
+            difficulty: desiredDifficulty,
+            status: { $in: [desiredStatus] },
+            $expr: { $lt: [ { $size: "$workers" }, "$size" ] } // Length of workers array less than size
+        });
+
+        res.status(200).json(projects);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+router.post("/addWorker/:projectId", async (req, res) => {
+    try {
+        let { userId } = req.body;
+        let projectId = req.params.projectId;
+
+        let project = await projectModel.findById(projectId);
+
+        if (!project) {
+            return res.status(404).send("Project not found");
+        }
+
+        project.workers.push(userId);
+        await project.save();
+
+        res.status(200).send("User added to project successfully");
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
 // Project sharing support
 
 router.post("/:id/share",checkAuth, async (req, res) => {
