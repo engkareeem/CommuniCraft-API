@@ -49,10 +49,9 @@ API documentation is generated using Swagger UI, providing comprehensive insight
 - **Roles**: Role-based access control can be integrated to manage user permissions.
 - **Error Handling and Logging**: Robust error handling and logging mechanisms aid in debugging and troubleshooting.
 
-## Suggestions for Further Exploration
+## Future Work for this Project
 
 - Implement role-based access control for enhanced security.
-- Integrate external APIs to enrich platform functionality (e.g., local partnership integration).
 - Enhance testing coverage for improved reliability.
 - Explore containerization with Docker for easier deployment and scalability.
 
