@@ -43,10 +43,13 @@ API documentation is generated using Swagger UI, providing comprehensive insight
 4. Start the server using `npm start`.
 5. Access Swagger UI documentation at `/api-docs` route.
 
+## External API Integration: JSearch by OpenWeb Ninja
+
+We've integrated JSearch, a comprehensive jobs API, to enhance skill matching capabilities. <br>JSearch provides fast and reliable access to real-time job postings information from major sites like LinkedIn, Indeed, and Glassdoor. <br>With over 30 data points per job and extensive search and filtering depending on current user skills, JSearch empowers users to find relevant users that has matching skills effortlessly.
+
 ## Additional Features
 
 - **User Privacy and Data Security**: Stringent measures are implemented to protect user data by using JWT Tokens.
-- **External API Integretion**: Integrate with a weather API to provide users with real-time weather updates based on their project location. It is useful for planning outdoor craft activities or finding suitible conditions for projects.
 - **Error Handling**: Robust error handling mechanisms aid in debugging and troubleshooting.
 
 ## Future Work for this Project
