@@ -45,9 +45,9 @@ API documentation is generated using Swagger UI, providing comprehensive insight
 
 ## Additional Features
 
-- **User Privacy and Data Security**: Stringent measures are implemented to protect user data.
-- **Roles**: Role-based access control can be integrated to manage user permissions.
-- **Error Handling and Logging**: Robust error handling and logging mechanisms aid in debugging and troubleshooting.
+- **User Privacy and Data Security**: Stringent measures are implemented to protect user data by using JWT Tokens.
+- **External API Integretion**: Integrate with a weather API to provide users with real-time weather updates based on their project location. It is useful for planning outdoor craft activities or finding suitible conditions for projects.
+- **Error Handling**: Robust error handling mechanisms aid in debugging and troubleshooting.
 
 ## Future Work for this Project
 
